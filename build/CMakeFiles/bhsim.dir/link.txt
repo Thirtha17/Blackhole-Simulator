@@ -1,0 +1,1 @@
+/usr/bin/c++  -arch arm64 -bundle -Wl,-headerpad_max_install_names -Xlinker -undefined -Xlinker dynamic_lookup -o bhsim.cpython-312-darwin.so CMakeFiles/bhsim.dir/src/bindings.cpp.o CMakeFiles/bhsim.dir/src/raytrace.cpp.o

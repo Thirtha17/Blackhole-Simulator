@@ -1,0 +1,10 @@
+# ninja log v7
+3	1359	1771151754578003299	CMakeFiles/bhsim.dir/src/bindings.cpp.o	4b50ba6ac251db54
+3	1345	1771151754578150175	CMakeFiles/bhsim.dir/src/raytrace.cpp.o	fe341674815a9125
+1269	1647	1771151727043257779	bhsim.cpython-312-darwin.so	eca59820c67cfbbd
+1359	1392	1771151755934761253	bhsim.so	72fe33da451c59c8
+2	82	1771151803735281426	build.ninja	7a8898f08fcad912
+2	82	1771151803735281426	/Users/thirtha/Research/bh_sim/build/cmake_install.cmake	7a8898f08fcad912
+3	1243	1771151803740393362	CMakeFiles/bhsim.dir/src/raytrace.cpp.o	fe341674815a9125
+3	1276	1771151803740243653	CMakeFiles/bhsim.dir/src/bindings.cpp.o	4b50ba6ac251db54
+1276	1304	1771151805014009792	bhsim.so	72fe33da451c59c8
