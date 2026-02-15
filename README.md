@@ -1,4 +1,4 @@
-# bh_sim
+# Blackhole Simulator
 
 A C++/Python black hole renderer using `pybind11`.
 
@@ -6,7 +6,7 @@ It builds a Python extension module (`bhsim`) from C++ code and renders a black-
 
 ## Project Description
 
-`bh_sim` is a black hole visualization project focused on physically inspired rendering with a fast C++ core and a simple Python interface.  
+`Blackhole Simulator` is a black hole visualization project focused on physically inspired rendering with a fast C++ core and a simple Python interface.  
 It traces light paths around a compact mass, samples emission from an accretion disk, and produces cinematic frames that show gravitational lensing, shadow formation, and relativistic intensity shifts.
 
 The renderer is implemented in C++ for performance, exposed to Python through `pybind11`, and designed for quick experimentation with camera and lensing parameters. This makes it suitable for both educational demos and visual prototyping of black hole imagery.
