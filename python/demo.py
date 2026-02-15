@@ -1,48 +1,64 @@
 import sys
 from pathlib import Path
 
-import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider
+import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "build"))
 
 import bhsim
 
-def bloom(img_rgba, strength=1.35, threshold=120):
-    img = img_rgba[..., :3].astype(np.float32)
+WIDTH = 400
+HEIGHT = 240
+FOV_DEG = 50.0
+BH_ANG_DEG = 4.8
+LENS_STRENGTH = 0.55
+DUMMY = np.zeros((2, 2, 3), dtype=np.uint8)
 
-    # bright-pass
-    bright = np.clip(img - threshold, 0, 255)
 
-    # cheap blur (repeat neighbor averaging)
-    for _ in range(6):
-        bright = (
-            bright +
-            np.roll(bright, 1, 0) + np.roll(bright, -1, 0) +
-            np.roll(bright, 1, 1) + np.roll(bright, -1, 1)
-        ) / 5.0
+def render_frame(pitch_deg: float, distance_scale: float):
+    return bhsim.render_sky_with_bh(
+        width=WIDTH,
+        height=HEIGHT,
+        fov_deg=FOV_DEG,
+        bh_angular_radius_deg=BH_ANG_DEG,
+        lens_strength=LENS_STRENGTH,
+        sky_img=DUMMY,
+        cam_yaw_deg=0.0,
+        cam_pitch_deg=pitch_deg,
+        cam_distance_scale=distance_scale,
+    )
 
-    out = np.clip(img + strength * bright, 0, 255).astype(np.uint8)
-    rgba = img_rgba.copy()
-    rgba[..., :3] = out
-    return rgba
 
-# Render (sky_img arg still required by signature; pass dummy)
-dummy = np.zeros((2, 2, 3), dtype=np.uint8)
+init_pitch = 6.0
+init_distance = 1.0
+img = render_frame(init_pitch, init_distance)
 
-img = bhsim.render_sky_with_bh(
-    width=1000,
-    height=600,
-    fov_deg=75.0,
-    bh_angular_radius_deg=4.8,
-    lens_strength=0.55,
-    sky_img=dummy
-)
+fig, ax = plt.subplots(figsize=(11, 6))
+plt.subplots_adjust(left=0.08, right=0.98, bottom=0.20)
 
-# For line-art mode, keep raw output (no bloom).
+im_artist = ax.imshow(img)
+ax.set_title("Blackhole Simulator")
+# ax.axis("off")
 
-plt.figure(figsize=(12, 6))
-plt.imshow(img)
-plt.axis("off")
+ax_dist = plt.axes([0.12, 0.10, 0.75, 0.03])
+ax_pitch = plt.axes([0.12, 0.05, 0.75, 0.03])
+
+dist_slider = Slider(ax_dist, "Distance", 0.4, 2.0, valinit=init_distance, valstep=0.1)
+pitch_slider = Slider(ax_pitch, "Pitch", -20.0, 60.0, valinit=init_pitch, valstep=5.0)
+
+
+def on_change(_):
+    pitch = float(pitch_slider.val)
+    dist = float(dist_slider.val)
+    frame = render_frame(pitch, dist)
+    im_artist.set_data(frame)
+    fig.canvas.draw_idle()
+
+
+dist_slider.on_changed(on_change)
+pitch_slider.on_changed(on_change)
+
 plt.show()

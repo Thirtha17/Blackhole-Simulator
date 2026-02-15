@@ -2,6 +2,9 @@
 #include <cmath>
 #include <algorithm>
 #include <cstdint>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 namespace py = pybind11;
 
@@ -122,7 +125,10 @@ py::array_t<std::uint8_t> render_sky_with_bh(
     int width, int height, double fov_deg,
     double bh_angular_radius_deg,
     double lens_strength,
-    py::array_t<std::uint8_t> sky_img) // unused; black background
+    py::array_t<std::uint8_t> sky_img,
+    double cam_yaw_deg,
+    double cam_pitch_deg,
+    double cam_distance_scale) // unused; black background
 {
     (void)sky_img;
     auto out = py::array_t<std::uint8_t>({height, width, 4});
@@ -143,8 +149,15 @@ py::array_t<std::uint8_t> render_sky_with_bh(
     const double disk_outer = 20.0 * M;
     const double disk_half_thickness = 0.08 * M;
 
-    // Camera setup (slightly above disk plane, looking at origin).
-    Vec3 cam(0.0, 2.8 * M, 27.0 * M);
+    // Camera setup with user-controlled yaw/pitch around origin.
+    const double cam_r = 27.0 * M * std::clamp(cam_distance_scale, 0.25, 4.0);
+    const double yaw = cam_yaw_deg * M_PI / 180.0;
+    const double pitch = cam_pitch_deg * M_PI / 180.0;
+    Vec3 cam(
+        cam_r * std::cos(pitch) * std::sin(yaw),
+        cam_r * std::sin(pitch),
+        cam_r * std::cos(pitch) * std::cos(yaw)
+    );
     Vec3 look_at(0.0, 0.0, 0.0);
     Vec3 world_up(0.0, 1.0, 0.0);
     Vec3 forward = normalize(look_at - cam);
@@ -154,6 +167,9 @@ py::array_t<std::uint8_t> render_sky_with_bh(
     const int max_steps = 1100;
     const double h_base = 0.030 * M;
 
+#ifdef _OPENMP
+#pragma omp parallel for schedule(dynamic, 1)
+#endif
     for (int j = 0; j < height; j++) {
         for (int i = 0; i < width; i++) {
             double sx = (2.0 * i / (double)width - 1.0);

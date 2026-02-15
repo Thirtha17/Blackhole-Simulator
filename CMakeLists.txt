@@ -7,6 +7,7 @@ set(CMAKE_OSX_ARCHITECTURES "arm64")
 
 find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
 find_package(pybind11 REQUIRED)
+find_package(OpenMP)
 
 execute_process(
   COMMAND "${Python_EXECUTABLE}" -c "import sysconfig; print(sysconfig.get_config_var('EXT_SUFFIX') or '.so')"
@@ -23,6 +24,10 @@ add_library(bhsim MODULE
 )
 
 target_link_libraries(bhsim PRIVATE pybind11::headers Python::Module)
+if(OpenMP_CXX_FOUND)
+  target_link_libraries(bhsim PRIVATE OpenMP::OpenMP_CXX)
+  target_compile_definitions(bhsim PRIVATE BHSIM_USE_OPENMP=1)
+endif()
 target_include_directories(bhsim PRIVATE ${Python_INCLUDE_DIRS})
 target_compile_definitions(bhsim PRIVATE PYBIND11_DETAILED_ERROR_MESSAGES=1)
 

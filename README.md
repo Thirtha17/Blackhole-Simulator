@@ -11,9 +11,23 @@ It traces light paths around a compact mass, samples emission from an accretion 
 
 The renderer is implemented in C++ for performance, exposed to Python through `pybind11`, and designed for quick experimentation with camera and lensing parameters. This makes it suitable for both educational demos and visual prototyping of black hole imagery.
 
+## Features
+
+- Physically inspired black hole rendering with curved light paths and disk sampling
+- Pybind11-based C++ extension for fast frame generation from Python
+- Interactive camera controls in the demo:
+  - `Pitch` slider to tilt view angle
+  - `Distance` slider to zoom in/out
+- Configurable lensing and field-of-view parameters
+- High-resolution render support (e.g. 1600x900 sample in `assets/`)
+
 ## Sample Render
 
 ![Blackhole Simulator Render (Sky Blue to Dark Blue)](assets/render_1600x900_sky_blue.png)
+
+## Camera Controls Demo
+
+![Camera Controls Demo](assets/camera_controls_demo.gif)
 
 ## Project Structure
 
@@ -55,6 +69,10 @@ PYTHONPATH=build python python/demo.py
 ```
 
 The demo opens a matplotlib window with the rendered frame.
+Use sliders in the demo window to adjust:
+
+- `Pitch`: vertical camera angle
+- `Distance`: camera radius scale (zoom)
 
 ## Python API
 
@@ -66,7 +84,10 @@ img = bhsim.render_sky_with_bh(
     fov_deg=60.0,
     bh_angular_radius_deg=4.8,
     lens_strength=0.55,
-    sky_img=dummy_numpy_uint8_image
+    sky_img=dummy_numpy_uint8_image,
+    cam_yaw_deg=0.0,
+    cam_pitch_deg=6.0,
+    cam_distance_scale=1.0
 )
 ```
 
