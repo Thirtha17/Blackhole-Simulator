@@ -11,6 +11,10 @@ It traces light paths around a compact mass, samples emission from an accretion 
 
 The renderer is implemented in C++ for performance, exposed to Python through `pybind11`, and designed for quick experimentation with camera and lensing parameters. This makes it suitable for both educational demos and visual prototyping of black hole imagery.
 
+## Sample Render
+
+![Blackhole Simulator Render (Redder Disk)](assets/low_res_redder.png)
+
 ## Project Structure
 
 - `src/raytrace.cpp`: core renderer logic (C++)
