@@ -32,9 +32,9 @@ def bloom(img_rgba, strength=1.35, threshold=120):
 dummy = np.zeros((2, 2, 3), dtype=np.uint8)
 
 img = bhsim.render_sky_with_bh(
-    width=1400,
-    height=780,
-    fov_deg=60.0,
+    width=1000,
+    height=600,
+    fov_deg=75.0,
     bh_angular_radius_deg=4.8,
     lens_strength=0.55,
     sky_img=dummy

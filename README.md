@@ -13,7 +13,7 @@ The renderer is implemented in C++ for performance, exposed to Python through `p
 
 ## Sample Render
 
-![Blackhole Simulator Render (Redder Disk)](assets/low_res_redder.png)
+![Blackhole Simulator Render (Sky Blue to Dark Blue)](assets/render_1600x900_sky_blue.png)
 
 ## Project Structure
 

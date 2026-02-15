@@ -238,9 +238,11 @@ py::array_t<std::uint8_t> render_sky_with_bh(
 
                             // Warm color ramp: inner hotter.
                             double hot = clamp01((disk_inner * 1.8 - r_disk) / (disk_inner * 1.1));
-                            double R = 255.0;
-                            double G = 70.0 + 55.0 * hot;
-                            double B = 6.0 + 18.0 * hot;
+                            double t = clamp01((r_disk - disk_inner) / (disk_outer - disk_inner));
+                            // Sky blue (inner) -> dark blue (outer)
+                            double R = 170.0 - 150.0 * t;
+                            double G = 220.0 - 160.0 * t;
+                            double B = 255.0 - 110.0 * t;
 
                             double mult = (disk_hits == 0) ? 1.0 : 1.45;
                             rr += mult * R * I;
@@ -264,9 +266,9 @@ py::array_t<std::uint8_t> render_sky_with_bh(
                 double ring_w = 0.45 * M;
                 double d = (rho_min - ring_target) / std::max(ring_w, 1e-6);
                 double glow = std::exp(-d*d);
-                rr += 24.0 * glow;
-                gg += 7.0 * glow;
-                bb += 1.0 * glow;
+                rr += 8.0 * glow;
+                gg += 14.0 * glow;
+                bb += 26.0 * glow;
             }
 
             rr = std::min(255.0, rr);
