@@ -99,4 +99,4 @@ python -m pip install numpy matplotlib
 
 ## License
 
-Add your preferred license (e.g. MIT) in a `LICENSE` file before publishing.
+This project is licensed under the MIT License. See `LICENSE`.
