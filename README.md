@@ -27,7 +27,9 @@ The renderer is implemented in C++ for performance, exposed to Python through `p
 
 ## Camera Controls Demo
 
-![Camera Controls Demo](assets/camera_controls_demo.gif)
+<p align="center">
+  <img src="assets/camera_controls_demo.gif" alt="Camera Controls Demo" />
+</p>
 
 ## Project Structure
 
