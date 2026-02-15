@@ -76,14 +76,24 @@ Use sliders in the demo window to adjust:
 - `Pitch`: vertical camera angle
 - `Distance`: camera radius scale (zoom)
 
+Current demo defaults (`python/demo.py`):
+
+- Render size: `400 x 240`
+- `fov_deg=50.0`
+- `bh_angular_radius_deg=4.8`
+- `lens_strength=0.55`
+- Slider steps:
+  - `Distance`: `0.1`
+  - `Pitch`: `5.0`
+
 ## Python API
 
 ```python
 import bhsim
 img = bhsim.render_sky_with_bh(
-    width=1400,
-    height=780,
-    fov_deg=60.0,
+    width=400,
+    height=240,
+    fov_deg=50.0,
     bh_angular_radius_deg=4.8,
     lens_strength=0.55,
     sky_img=dummy_numpy_uint8_image,
