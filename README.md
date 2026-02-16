@@ -86,6 +86,24 @@ Current demo defaults (`python/demo.py`):
   - `Distance`: `0.1`
   - `Pitch`: `5.0`
 
+## Optional GPU Renderer (PyTorch)
+
+An additional GPU-oriented implementation is available:
+
+- `python/gpu_renderer.py`: tensor-based renderer (CUDA/MPS/CPU fallback)
+- `python/gpu_demo.py`: demo script for GPU path
+
+Install PyTorch in your environment, then run:
+
+```bash
+python python/gpu_demo.py
+```
+
+Notes:
+
+- Uses `cuda` when available, otherwise `mps` on Apple Silicon, otherwise CPU.
+- This path is separate from the C++ `pybind11` extension.
+
 ## Python API
 
 ```python
